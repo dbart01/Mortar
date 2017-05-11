@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9A49DC4C1EC49A170053710B"
-               BuildableName = "Mortar MacOS.framework"
+               BuildableName = "Mortar.framework"
                BlueprintName = "Mortar MacOS"
                ReferencedContainer = "container:Mortar.xcodeproj">
             </BuildableReference>
@@ -44,7 +44,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9A49DC4C1EC49A170053710B"
-            BuildableName = "Mortar MacOS.framework"
+            BuildableName = "Mortar.framework"
             BlueprintName = "Mortar MacOS"
             ReferencedContainer = "container:Mortar.xcodeproj">
          </BuildableReference>
@@ -66,7 +66,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9A49DC4C1EC49A170053710B"
-            BuildableName = "Mortar MacOS.framework"
+            BuildableName = "Mortar.framework"
             BlueprintName = "Mortar MacOS"
             ReferencedContainer = "container:Mortar.xcodeproj">
          </BuildableReference>
@@ -84,7 +84,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9A49DC4C1EC49A170053710B"
-            BuildableName = "Mortar MacOS.framework"
+            BuildableName = "Mortar.framework"
             BlueprintName = "Mortar MacOS"
             ReferencedContainer = "container:Mortar.xcodeproj">
          </BuildableReference>

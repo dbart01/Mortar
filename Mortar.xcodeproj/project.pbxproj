@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9A49DC571EC49A170053710B /* Mortar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A49DC4D1EC49A170053710B /* Mortar.framework */; };
-		9A49DC5C1EC49A170053710B /* MortarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC5B1EC49A170053710B /* MortarTests.swift */; };
+		9A49DC5C1EC49A170053710B /* CompositionalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC5B1EC49A170053710B /* CompositionalTests.swift */; };
 		9A49DC5E1EC49A170053710B /* Mortar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A49DC501EC49A170053710B /* Mortar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A49DC6B1EC49A5F0053710B /* Mortar.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A49DC501EC49A170053710B /* Mortar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9A49DC731EC49BA30053710B /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC721EC49BA30053710B /* Result.swift */; };
@@ -19,6 +19,8 @@
 		9A49DC7D1EC49C520053710B /* Exclusive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC7B1EC49C520053710B /* Exclusive.swift */; };
 		9A49DC801EC49C730053710B /* FunctionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC7F1EC49C730053710B /* FunctionTypes.swift */; };
 		9A49DC811EC49C730053710B /* FunctionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC7F1EC49C730053710B /* FunctionTypes.swift */; };
+		9A49DC851EC4D2510053710B /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC841EC4D2510053710B /* TestError.swift */; };
+		9A49DC881EC4D3290053710B /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A49DC871EC4D3290053710B /* Types.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +38,7 @@
 		9A49DC501EC49A170053710B /* Mortar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mortar.h; sourceTree = "<group>"; };
 		9A49DC511EC49A170053710B /* Mortar MacOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mortar MacOS.plist"; sourceTree = "<group>"; };
 		9A49DC561EC49A170053710B /* MortarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MortarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A49DC5B1EC49A170053710B /* MortarTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortarTests.swift; sourceTree = "<group>"; };
+		9A49DC5B1EC49A170053710B /* CompositionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalTests.swift; sourceTree = "<group>"; };
 		9A49DC5D1EC49A170053710B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A49DC701EC49A5F0053710B /* Mortar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mortar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A49DC711EC49A5F0053710B /* Mortar iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mortar iOS.plist"; path = "/Users/dbart/Documents/Projects/Personal/Mortar/Mortar/Mortar iOS.plist"; sourceTree = "<absolute>"; };
@@ -44,6 +46,8 @@
 		9A49DC781EC49BDB0053710B /* Compositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compositional.swift; sourceTree = "<group>"; };
 		9A49DC7B1EC49C520053710B /* Exclusive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exclusive.swift; sourceTree = "<group>"; };
 		9A49DC7F1EC49C730053710B /* FunctionTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionTypes.swift; sourceTree = "<group>"; };
+		9A49DC841EC4D2510053710B /* TestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
+		9A49DC871EC4D3290053710B /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +111,8 @@
 		9A49DC5A1EC49A170053710B /* MortarTests */ = {
 			isa = PBXGroup;
 			children = (
-				9A49DC5B1EC49A170053710B /* MortarTests.swift */,
+				9A49DC861EC4D31F0053710B /* Test Suite */,
+				9A49DC5B1EC49A170053710B /* CompositionalTests.swift */,
 				9A49DC5D1EC49A170053710B /* Info.plist */,
 			);
 			path = MortarTests;
@@ -120,6 +125,15 @@
 				9A49DC7B1EC49C520053710B /* Exclusive.swift */,
 			);
 			name = Transforms;
+			sourceTree = "<group>";
+		};
+		9A49DC861EC4D31F0053710B /* Test Suite */ = {
+			isa = PBXGroup;
+			children = (
+				9A49DC841EC4D2510053710B /* TestError.swift */,
+				9A49DC871EC4D3290053710B /* Types.swift */,
+			);
+			name = "Test Suite";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,7 +298,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A49DC5C1EC49A170053710B /* MortarTests.swift in Sources */,
+				9A49DC881EC4D3290053710B /* Types.swift in Sources */,
+				9A49DC851EC4D2510053710B /* TestError.swift in Sources */,
+				9A49DC5C1EC49A170053710B /* CompositionalTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
