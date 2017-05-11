@@ -11,12 +11,12 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator <->: AdditionPrecedence
+public infix operator <->: AdditionPrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
 //
-func <-> <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping AsyncTransform<X, Y, E>) -> AsyncTransform<X, Y, E> {
+public func <-> <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping AsyncTransform<X, Y, E>) -> AsyncTransform<X, Y, E> {
     return { x, completion in
         lhs(x) { result in
             switch result {

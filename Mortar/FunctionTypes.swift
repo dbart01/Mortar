@@ -8,6 +8,6 @@
 
 import Foundation
 
-typealias AsyncTransform<X, Y, E: Error>  = (_ input: X, _ output: @escaping (Result<Y, E>) -> Void) -> Void
-typealias Transform<X, Y, E: Error>       = (_ input: X) -> Result<Y, E>
-typealias SimpleTransform<X, Y>           = (_ input: X) -> Y
+public typealias AsyncTransform<X, Y, E: Error>  = (_ input: X, _ output: @escaping (Result<Y, E>) -> Void) -> Void
+public typealias Transform<X, Y, E: Error>       = (_ input: X) -> Result<Y, E>
+public typealias SimpleTransform<X, Y>           = (_ input: X) -> Y
