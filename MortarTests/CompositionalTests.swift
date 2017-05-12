@@ -93,6 +93,110 @@ class CompositionalTests: XCTestCase {
     }
     
     // ----------------------------------
+    //  MARK: - Sync to X -
+    //
+    func testSyncToSyncSuccess() {
+        let pipeline = double_s <<- double_s
+        
+        switch pipeline(2) {
+        case .success(let value):
+            XCTAssertEqual(value, 8)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testSyncToSyncFailure() {
+        let pipeline = double_f <<- double_s
+        
+        switch pipeline(2) {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error, .generic)
+        }
+    }
+    
+    func testSyncToAsyncSuccess() {
+        let pipeline = double_s <<- addTwo_s
+        
+        pipeline(2) { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 6)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testSyncToAsyncFailure() {
+        let pipeline = double_f <<- addTwo_s
+        
+        pipeline(2) { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .generic)
+            }
+        }
+    }
+    
+    func testSyncToSimpleSuccess() {
+        let pipeline = double_s <<- triple_s
+        
+        switch pipeline(2) {
+        case .success(let value):
+            XCTAssertEqual(value, 12)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testSyncToSimpleFailure() {
+        let pipeline = double_f <<- triple_s
+        
+        switch pipeline(2) {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error, .generic)
+        }
+    }
+    
+    // ----------------------------------
+    //  MARK: - Simple to X -
+    //
+    func testSimpleToSimpleSuccess() {
+        let pipeline = triple_s <<- triple_s
+        
+        XCTAssertEqual(pipeline(2), 18)
+    }
+    
+    func testSimpleToSyncSuccess() {
+        let pipeline = triple_s <<- double_s
+        
+        switch pipeline(2) {
+        case .success(let value):
+            XCTAssertEqual(value, 12)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testSimpleToSyncFailure() {
+        let pipeline = double_f <<- triple_s
+        
+        switch pipeline(2) {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error, .generic)
+        }
+    }
+    
+    // ----------------------------------
     //  MARK: - Functions -
     //
     private let addTwo_s: T_AsyncIntToInt = { value, completion in
