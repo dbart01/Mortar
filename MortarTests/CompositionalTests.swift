@@ -197,35 +197,4 @@ class CompositionalTests: XCTestCase {
             }
         }
     }
-    
-    // ----------------------------------
-    //  MARK: - Functions -
-    //
-    private let addTwo_s: T_AsyncIntToInt = { value, completion in
-        return completion(.success(value + 2))
-    }
-    
-    private let addTwo_f: T_AsyncIntToInt = { value, completion in
-        return completion(.failure(.generic))
-    }
-    
-    private let stringify_s: T_AsyncIntToString = { value, completion in
-        return completion(.success("String: \(value)"))
-    }
-    
-    private let stringify_f: T_AsyncIntToString = { value, completion in
-        return completion(.failure(.generic))
-    }
-    
-    private let double_s: T_SyncIntToInt = { value in
-        return .success(value * 2)
-    }
-    
-    private let double_f: T_SyncIntToInt = { value in
-        return .failure(.generic)
-    }
-    
-    private let triple_s: T_SimpleIntToInt = { value in
-        return value * 3
-    }
 }
