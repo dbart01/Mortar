@@ -168,13 +168,13 @@ class CompositionalTests: XCTestCase {
     // ----------------------------------
     //  MARK: - Simple to X -
     //
-    func testSimpleToSimpleSuccess() {
+    func testSimpleToSimple() {
         let pipeline = triple_s <<- triple_s
         
         XCTAssertEqual(pipeline(2), 18)
     }
     
-    func testSimpleToSyncSuccess() {
+    func testSimpleToSync() {
         let pipeline = triple_s <<- double_s
         
         switch pipeline(2) {
@@ -185,14 +185,16 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testSimpleToSyncFailure() {
-        let pipeline = double_f <<- triple_s
+    func testSimpleToAsync() {
+        let pipeline = triple_s <<- addTwo_s
         
-        switch pipeline(2) {
-        case .success:
-            XCTFail()
-        case .failure(let error):
-            XCTAssertEqual(error, .generic)
+        pipeline(2) { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 8)
+            case .failure:
+                XCTFail()
+            }
         }
     }
     
