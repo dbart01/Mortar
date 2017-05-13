@@ -439,6 +439,7 @@
 				INFOPLIST_FILE = "Mortar/Mortar MacOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dimabart.Mortar;
 				PRODUCT_NAME = Mortar;
 				SKIP_INSTALL = YES;
@@ -462,6 +463,7 @@
 				INFOPLIST_FILE = "Mortar/Mortar MacOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dimabart.Mortar;
 				PRODUCT_NAME = Mortar;
 				SKIP_INSTALL = YES;
@@ -512,6 +514,7 @@
 				INFOPLIST_FILE = "Mortar/Mortar iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dimabart.Mortar;
 				PRODUCT_NAME = Mortar;
 				SDKROOT = iphoneos;
@@ -536,6 +539,7 @@
 				INFOPLIST_FILE = "Mortar/Mortar iOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "-Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.dimabart.Mortar;
 				PRODUCT_NAME = Mortar;
 				SDKROOT = iphoneos;
