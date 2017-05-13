@@ -41,7 +41,7 @@
 		9A49DC5B1EC49A170053710B /* CompositionalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositionalTests.swift; sourceTree = "<group>"; };
 		9A49DC5D1EC49A170053710B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9A49DC701EC49A5F0053710B /* Mortar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mortar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A49DC711EC49A5F0053710B /* Mortar iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Mortar iOS.plist"; path = "/Users/dbart/Documents/Projects/Personal/Mortar/Mortar/Mortar iOS.plist"; sourceTree = "<absolute>"; };
+		9A49DC711EC49A5F0053710B /* Mortar iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Mortar iOS.plist"; sourceTree = "<group>"; };
 		9A49DC721EC49BA30053710B /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		9A49DC781EC49BDB0053710B /* Compositional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Compositional.swift; sourceTree = "<group>"; };
 		9A49DC7B1EC49C520053710B /* Exclusive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exclusive.swift; sourceTree = "<group>"; };
@@ -563,6 +563,7 @@
 				9A49DC631EC49A170053710B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9A49DC641EC49A170053710B /* Build configuration list for PBXNativeTarget "MortarTests" */ = {
 			isa = XCConfigurationList;
@@ -571,6 +572,7 @@
 				9A49DC661EC49A170053710B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9A49DC6D1EC49A5F0053710B /* Build configuration list for PBXNativeTarget "Mortar iOS" */ = {
 			isa = XCConfigurationList;
