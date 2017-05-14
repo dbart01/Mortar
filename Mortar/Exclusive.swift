@@ -11,7 +11,7 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator <->: AdditionPrecedence
+infix operator <->: MultiplicationPrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
