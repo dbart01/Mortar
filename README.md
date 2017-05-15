@@ -1,5 +1,10 @@
 # Mortar
 
+[![Build Status](https://travis-ci.org/dbart01/Mortar.svg?branch=master)](https://travis-ci.org/dbart01/Mortar)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![GitHub release](https://img.shields.io/github/release/dbart01/mortar.svg)](https://github.com/dbart01/Mortar/releases/latest)
+[![GitHub license](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/dbart01/Mortar/blob/master/LICENSE)
+
 A light-weight foundation for functional composition on iOS and MacOS.
 
 The best way to describe this framework is using a metaphor. A single brick is often useless. Even a horde of bricks cannot build a robust structure on their own. A binding agent is necessary to hold the bricks in place, and that's `Mortar.framework`. Your application has all the building blocks but it needs glue to bind it all together to form robust processing pipelines for data flow. `Mortar` is a collection of operators that let you chain synchronous and asynchronous operations together.
