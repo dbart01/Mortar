@@ -29,7 +29,7 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator -<: AdditionPrecedence
+infix operator -<: BitwiseShiftPrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
