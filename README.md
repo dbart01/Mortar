@@ -1,6 +1,7 @@
 # Mortar
 
 [![Build Status](https://travis-ci.org/dbart01/Mortar.svg?branch=master)](https://travis-ci.org/dbart01/Mortar)
+[![codecov](https://codecov.io/gh/dbart01/Mortar/branch/master/graph/badge.svg)](https://codecov.io/gh/dbart01/Mortar)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![GitHub release](https://img.shields.io/github/release/dbart01/mortar.svg)](https://github.com/dbart01/Mortar/releases/latest)
 [![GitHub license](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/dbart01/Mortar/blob/master/LICENSE)

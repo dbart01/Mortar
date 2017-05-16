@@ -1,6 +1,6 @@
 //
 //  Types.swift
-//  Mortar
+//  MortarTests
 //
 //  The MIT License (MIT)
 //  
@@ -38,6 +38,9 @@ typealias T_SyncIntToString     = (Int) -> Result<String, TestError>
 
 typealias T_SimpleIntToInt      = (Int) -> Int
 typealias T_SimpleIntToString   = (Int) -> String
+
+typealias T_PassthroughInt      = (Int) -> Void
+typealias T_PassthroughString   = (String) -> Void
 
 // ----------------------------------
 //  MARK: - Functions -

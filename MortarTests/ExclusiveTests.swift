@@ -1,6 +1,6 @@
 //
 //  ExclusiveTests.swift
-//  Mortar
+//  MortarTests
 //
 //  The MIT License (MIT)
 //
