@@ -27,10 +27,10 @@
 import Foundation
 import Mortar
 
-typealias T_AsyncIntToInt       = (Int,    (Result<Int,    TestError>) -> Void) -> Void
-typealias T_AsyncIntToString    = (Int,    (Result<String, TestError>) -> Void) -> Void
-typealias T_AsyncStringToString = (String, (Result<String, TestError>) -> Void) -> Void
-typealias T_AsyncStringToInt    = (String, (Result<Int,    TestError>) -> Void) -> Void
+typealias T_AsyncIntToInt       = (Int,    @escaping (Result<Int,    TestError>) -> Void) -> Void
+typealias T_AsyncIntToString    = (Int,    @escaping (Result<String, TestError>) -> Void) -> Void
+typealias T_AsyncStringToString = (String, @escaping (Result<String, TestError>) -> Void) -> Void
+typealias T_AsyncStringToInt    = (String, @escaping (Result<Int,    TestError>) -> Void) -> Void
 
 typealias T_SyncIntToInt        = (Int) -> Result<Int,    TestError>
 typealias T_SyncIntToString     = (Int) -> Result<String, TestError>
@@ -46,27 +46,39 @@ typealias T_PassthroughString   = (String) -> Void
 //  MARK: - Functions -
 //
 let addTwo_s: T_AsyncIntToInt = { value, completion in
-    return completion(.success(value + 2))
+    completion(.success(value + 2))
 }
 
 let addTwo_f: T_AsyncIntToInt = { value, completion in
-    return completion(.failure(.generic))
+    completion(.failure(.generic))
 }
 
 let subtractThree_s: T_AsyncIntToInt = { value, completion in
-    return completion(.success(value - 3))
+    completion(.success(value - 3))
 }
 
 let subtractThree_f: T_AsyncIntToInt = { value, completion in
-    return completion(.failure(.generic))
+    completion(.failure(.generic))
 }
 
 let stringify_s: T_AsyncIntToString = { value, completion in
-    return completion(.success("String: \(value)"))
+    completion(.success("String: \(value)"))
 }
 
 let stringify_f: T_AsyncIntToString = { value, completion in
-    return completion(.failure(.generic))
+    completion(.failure(.generic))
+}
+
+let fetchQuadruple_s: T_AsyncIntToInt = { value, completion in
+    DispatchQueue.global().async {
+        completion(.success(value * 4))
+    }
+}
+
+let fetchQuadruple_f: T_AsyncIntToInt = { value, completion in
+    DispatchQueue.global().async {
+        completion(.failure(.generic))
+    }
 }
 
 let double_s: T_SyncIntToInt = { value in
