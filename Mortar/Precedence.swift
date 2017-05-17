@@ -1,5 +1,5 @@
 //
-//  Passthrough.swift
+//  Precedence.swift
 //  Mortar
 //
 //  The MIT License (MIT)
@@ -26,45 +26,17 @@
 
 import Foundation
 
-// ----------------------------------
-//  MARK: - Operator -
-//
-infix operator -<: PassthroughPrecedence
-
-// ----------------------------------
-//  MARK: - Overloads -
-//
-public func -< <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> AsyncTransform<X, Y, E> {
-    return { x, completion in
-        lhs(x) { result in
-            switch result {
-            case .success(let y):
-                rhs(y)
-                completion(.success(y))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
+precedencegroup CompositionPrecedence {
+    associativity: left
+    higherThan: AdditionPrecedence
 }
 
-public func -< <X, Y, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> Transform<X, Y, E> {
-    return { x in
-        let result = lhs(x)
-        switch result {
-        case .success(let y):
-            rhs(y)
-        default:
-            break
-        }
-        return result
-    }
+precedencegroup ExclusivePrecedence {
+    associativity: left
+    higherThan: CompositionPrecedence
 }
 
-public func -< <X, Y>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping PassTransform<Y>) -> SimpleTransform<X, Y> {
-    return { x in
-        let y = lhs(x)
-        rhs(y)
-        return y
-    }
+precedencegroup PassthroughPrecedence {
+    associativity: left
+    higherThan: ExclusivePrecedence
 }

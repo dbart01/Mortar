@@ -29,7 +29,7 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator <->: MultiplicationPrecedence
+infix operator <->: ExclusivePrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
