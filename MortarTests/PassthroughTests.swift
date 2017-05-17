@@ -104,4 +104,21 @@ class PassthroughTests: XCTestCase {
         
         XCTAssertTrue(didLog)
     }
+    
+    // ----------------------------------
+    //  MARK: - Precedence -
+    //
+    func testPrecedenceOverExclusive() {
+        var didLog = false
+        
+        let log: T_PassthroughInt = { value in
+            didLog = true
+            XCTFail()
+        }
+        
+        let pipeline = addTwo_f -< log <-> subtractThree_s
+        pipeline(3) { _ in }
+        
+        XCTAssertFalse(didLog)
+    }
 }
