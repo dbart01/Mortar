@@ -30,3 +30,6 @@ public typealias AsyncTransform<X, Y, E: Error>  = (_ input: X, _ output: @escap
 public typealias Transform<X, Y, E: Error>       = (_ input: X) -> Result<Y, E>
 public typealias SimpleTransform<X, Y>           = (_ input: X) -> Y
 public typealias PassTransform<X>                = (_ input: X) -> Void
+
+public typealias CancelToken = () -> Void
+public typealias AsyncCancellableTransform<X, Y, E: Error>  = (_ input: X, _ output: @escaping (Result<Y, E>) -> Void) -> CancelToken

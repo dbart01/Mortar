@@ -215,4 +215,86 @@ class CompositionalTests: XCTestCase {
             }
         }
     }
+    
+    func makeCancellable(delay: DispatchTimeInterval) -> AsyncCancellableTransform<Void, Void, TestError> {
+        return {_, output in
+            
+            var cancelled = false
+            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + delay) {
+                if cancelled == false {
+                    output(.success(()))
+                }
+            }
+            return { cancelled = true }
+        }
+    }
+    
+    func testCancellationFirst() {
+
+        let cancellable1 = makeCancellable(delay: .milliseconds(200))
+        let cancellable2 = makeCancellable(delay: .milliseconds(200))
+
+        let callbackExpectation = expectation(description: "")
+        let pipeline = cancellable1 <<- cancellable2
+        
+        var finished = false
+        let cancelToken = pipeline(()) { _ in
+            finished = true
+        }
+        cancelToken()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            callbackExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.6) {_ in
+            XCTAssertFalse(finished)
+        }
+    }
+    
+    func testCancellationSecond() {
+        
+        let cancellable1 = makeCancellable(delay: .milliseconds(200))
+        let cancellable2 = makeCancellable(delay: .milliseconds(200))
+        
+        let callbackExpectation = expectation(description: "")
+        let pipeline = cancellable1 <<- cancellable2
+        
+        var finished = false
+        let cancelToken = pipeline(()) { _ in
+            finished = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(300)) {
+            cancelToken()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            callbackExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.6) {_ in
+            XCTAssertFalse(finished)
+        }
+    }
+    
+    func testNoCancellation() {
+        
+        let cancellable1 = makeCancellable(delay: .milliseconds(200))
+        let cancellable2 = makeCancellable(delay: .milliseconds(200))
+        
+        let callbackExpectation = expectation(description: "")
+        let pipeline = cancellable1 <<- cancellable2
+        
+        var finished = false
+        let _ = pipeline(()) { _ in
+            finished = true
+            callbackExpectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 0.6) {_ in
+            XCTAssertTrue(finished)
+        }
+    }
+
+
 }

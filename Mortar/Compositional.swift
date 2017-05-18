@@ -111,3 +111,21 @@ public func <<- <X, Y, Z, E>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escapin
         return rhs(lhs(x), completion)
     }
 }
+
+public func <<- <X, Y, Z, E>(lhs: @escaping AsyncCancellableTransform<X, Y,  E>, rhs: @escaping AsyncCancellableTransform<Y, Z, E>) -> AsyncCancellableTransform<X, Z, E> {
+    return {x, completion in
+        let queue = DispatchQueue(label: "")
+        var cancellable: CancelToken!
+        
+        cancellable = lhs(x) { result in
+            switch result {
+            case .success(let value):
+                let rhsCancellable = rhs(value, completion)
+                queue.async { cancellable = rhsCancellable }
+            case .failure(let e): completion(.failure(e))
+            }
+        }
+        return { queue.sync { cancellable() } }
+    }
+}
+
