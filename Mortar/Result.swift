@@ -26,7 +26,17 @@
 
 import Foundation
 
+/// A generic type that encapsulates the status of an operation.
+/// The two outcomes are mutually exclusive and can be either
+/// `success` or `failure`.
+///
 public enum Result<Type, ErrorType: Error> {
+    
+    /// A successful result case with an 
+    /// associated value of type `Type`.
     case success(Type)
+    
+    /// A failure result case with an
+    /// associated value of type `ErrorType`.
     case failure(ErrorType)
 }

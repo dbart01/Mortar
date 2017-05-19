@@ -34,6 +34,17 @@ postfix operator ~
 // ----------------------------------
 //  MARK: - Overloads -
 //
+/// Blocking operation converts an asynchronous operation in a synchronous one. It uses
+/// a semaphore to wait for the async operation to finish on the same queue that it's
+/// invoked on. It is **critical** that the underlying operation doesn't execute on the
+/// the same queue as the invokation of this operation, **otherwise a deadlock will occur**.
+///
+/// - parameters:
+///     - lhs: Async transformation that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// A sync transformation that has the same input and output values as the `lhs` async operation.
+///
 public postfix func ~ <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>) -> Transform<X, Y, E> {
     return { x in
         let semaphore = DispatchSemaphore(value: 0)
