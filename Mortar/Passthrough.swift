@@ -29,11 +29,21 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator -<: AdditionPrecedence
+infix operator -<: PassthroughPrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
 //
+/// Passthrough operator that take an output of an operation and appends a processing operation
+/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: Async transformation that has an input of `X` and output of `Y`.
+///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///
+/// - returns:
+/// The same async transformation that was the `lhs` input value.
+///
 public func -< <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> AsyncTransform<X, Y, E> {
     return { x, completion in
         lhs(x) { result in
@@ -48,6 +58,16 @@ public func -< <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping 
     }
 }
 
+/// Passthrough operator that take an output of an operation and appends a processing operation
+/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: Sync transformation that has an input of `X` and output of `Y`.
+///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///
+/// - returns:
+/// The same sync transformation that was the `lhs` input value.
+///
 public func -< <X, Y, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> Transform<X, Y, E> {
     return { x in
         let result = lhs(x)
@@ -61,6 +81,16 @@ public func -< <X, Y, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping PassT
     }
 }
 
+/// Passthrough operator that take an output of an operation and appends a processing operation
+/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: Simple transformation that has an input of `X` and output of `Y`.
+///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///
+/// - returns:
+/// The same simple transformation that was the `lhs` input value.
+///
 public func -< <X, Y>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping PassTransform<Y>) -> SimpleTransform<X, Y> {
     return { x in
         let y = lhs(x)
