@@ -26,7 +26,37 @@
 
 import Foundation
 
-public typealias AsyncTransform<X, Y, E: Error>  = (_ input: X, _ output: @escaping (Result<Y, E>) -> Void) -> Void
-public typealias Transform<X, Y, E: Error>       = (_ input: X) -> Result<Y, E>
-public typealias SimpleTransform<X, Y>           = (_ input: X) -> Y
-public typealias PassTransform<X>                = (_ input: X) -> Void
+/// Asynchronous transformation that takes `X` and calls a 
+/// completion with a `Result` of type `Y` if the operation
+/// was successful, or `E` if operation failed.
+///
+/// - parameters:
+///     - input:  Input value of type `X`.
+///     - output: Output handler to be called on completion with `Result` of type `Y`.
+///
+public typealias AsyncTransform<X, Y, E: Error> = (_ input: X, _ output: @escaping (Result<Y, E>) -> Void) -> Void
+
+/// Synchronous transformation that takes `X` and returns
+/// a `Result` of type `Y` if the operation was successful, 
+/// or `E` if operation failed.
+///
+/// - parameters:
+///     - input: Input value of type `X`.
+///
+public typealias Transform<X, Y, E: Error> = (_ input: X) -> Result<Y, E>
+
+/// Synchronous transformation that takes `X` and returns `Y`.
+/// Since the return type is a raw value and not a `Result`, it
+/// is assumed that the operation always succeeds and cannot fail.
+///
+/// - parameters:
+///     - input: Input value of type `X`.
+///
+public typealias SimpleTransform<X, Y> = (_ input: X) -> Y
+
+/// Synchronous transformation that takes `X` and returns no value.
+///
+/// - parameters:
+///     - input: Input value of type `X`.
+///
+public typealias PassTransform<X> = (_ input: X) -> Void
