@@ -26,7 +26,7 @@
 
 import Foundation
 
-/// A generic type that encapsulates the status of an operation.
+/// A generic type that encapsulates the status of a map function.
 /// The two outcomes are mutually exclusive and can be either
 /// `success` or `failure`.
 ///

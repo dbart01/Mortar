@@ -36,7 +36,7 @@ precedencegroup ExclusivePrecedence {
     higherThan: CompositionPrecedence
 }
 
-precedencegroup PassthroughPrecedence {
+precedencegroup ConsumerPrecedence {
     associativity: left
     higherThan: ExclusivePrecedence
 }

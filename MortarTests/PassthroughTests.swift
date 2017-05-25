@@ -1,5 +1,5 @@
 //
-//  PassthroughTests.swift
+//  ConsumerTests.swift
 //  MortarTests
 //
 //  The MIT License (MIT)
@@ -27,16 +27,16 @@
 import XCTest
 import Mortar
 
-class PassthroughTests: XCTestCase {
+class ConsumerTests: XCTestCase {
 
     // ----------------------------------
-    //  MARK: - Passthrough -
+    //  MARK: - Consumer -
     //
-    func testAsyncPassthroughSuccess() {
+    func testAsyncConsumerSuccess() {
         
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
             XCTAssertEqual(value, 5)
         }
@@ -47,11 +47,11 @@ class PassthroughTests: XCTestCase {
         XCTAssertTrue(didLog)
     }
     
-    func testAsyncPassthroughFailure() {
+    func testAsyncConsumerFailure() {
         
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
         }
         
@@ -61,11 +61,11 @@ class PassthroughTests: XCTestCase {
         XCTAssertFalse(didLog)
     }
     
-    func testSyncPassthroughSuccess() {
+    func testSyncConsumerSuccess() {
         
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
             XCTAssertEqual(value, 6)
         }
@@ -76,11 +76,11 @@ class PassthroughTests: XCTestCase {
         XCTAssertTrue(didLog)
     }
     
-    func testSyncPassthroughFailure() {
+    func testSyncConsumerFailure() {
         
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
         }
         
@@ -90,11 +90,11 @@ class PassthroughTests: XCTestCase {
         XCTAssertFalse(didLog)
     }
     
-    func testSimplePassthroughSuccess() {
+    func testSimpleConsumerSuccess() {
         
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
             XCTAssertEqual(value, 9)
         }
@@ -111,7 +111,7 @@ class PassthroughTests: XCTestCase {
     func testPrecedenceOverExclusive() {
         var didLog = false
         
-        let log: T_PassthroughInt = { value in
+        let log: T_ConsumerInt = { value in
             didLog = true
             XCTFail()
         }

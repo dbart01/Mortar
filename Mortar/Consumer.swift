@@ -1,5 +1,5 @@
 //
-//  Passthrough.swift
+//  Consumer.swift
 //  Mortar
 //
 //  The MIT License (MIT)
@@ -29,22 +29,22 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator -<: PassthroughPrecedence
+infix operator -<: ConsumerPrecedence
 
 // ----------------------------------
 //  MARK: - Overloads -
 //
-/// Passthrough operator that take an output of an operation and appends a processing operation
-/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
-///     - lhs: Async transformation that has an input of `X` and output of `Y`.
-///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///     - lhs: Async map that has an input of `X` and output of `Y`.
+///     - rhs: Consumer function that has an input of `Y` and no return value.
 ///
 /// - returns:
-/// The same async transformation that was the `lhs` input value.
+/// The same async map that was the `lhs` input value.
 ///
-public func -< <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> AsyncTransform<X, Y, E> {
+public func -< <X, Y, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping Consumer<Y>) -> AsyncResultMap<X, Y, E> {
     return { x, completion in
         lhs(x) { result in
             switch result {
@@ -58,17 +58,17 @@ public func -< <X, Y, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping 
     }
 }
 
-/// Passthrough operator that take an output of an operation and appends a processing operation
-/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
-///     - lhs: Sync transformation that has an input of `X` and output of `Y`.
-///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///     - lhs: Result map that has an input of `X` and output of `Y`.
+///     - rhs: Consumer function that has an input of `Y` and no return value.
 ///
 /// - returns:
-/// The same sync transformation that was the `lhs` input value.
+/// The same result map that was the `lhs` input value.
 ///
-public func -< <X, Y, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping PassTransform<Y>) -> Transform<X, Y, E> {
+public func -< <X, Y, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping Consumer<Y>) -> ResultMap<X, Y, E> {
     return { x in
         let result = lhs(x)
         switch result {
@@ -81,17 +81,17 @@ public func -< <X, Y, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping PassT
     }
 }
 
-/// Passthrough operator that take an output of an operation and appends a processing operation
-/// that returns the same output, unchanged. A passthrough operation doesn't modify the processing pipeline.
+/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
-///     - lhs: Simple transformation that has an input of `X` and output of `Y`.
-///     - rhs: Passthrough transformation that has an input of `Y` and no return value.
+///     - lhs: A map that has an input of `X` and output of `Y`.
+///     - rhs: Consumer function that has an input of `Y` and no return value.
 ///
 /// - returns:
-/// The same simple transformation that was the `lhs` input value.
+/// The same map that was the `lhs` input value.
 ///
-public func -< <X, Y>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping PassTransform<Y>) -> SimpleTransform<X, Y> {
+public func -< <X, Y>(lhs: @escaping Map<X, Y>, rhs: @escaping Consumer<Y>) -> Map<X, Y> {
     return { x in
         let y = lhs(x)
         rhs(y)

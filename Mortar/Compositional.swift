@@ -34,19 +34,19 @@ infix operator <<-: CompositionPrecedence
 // ----------------------------------
 //  MARK: - Overloads -
 //
-/// Compositional operator that merges the `rhs` async operation into the `lhs` async operation
-/// to create a new async operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` async map into the `lhs` async map
+/// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Async transformation that has an input of `X` and output of `Y`.
-///     - rhs: Async transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Async map that has an input of `X` and output of `Y`.
+///     - rhs: Async map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Async transformation that has an input of `X` and output of `Z`. Merging an async transformation
-/// into an async operation will yield a async transformation.
+/// Async map that has an input of `X` and output of `Z`. Merging an async map
+/// into an async map will yield a async map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping AsyncTransform<Y, Z, E>) -> AsyncTransform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping AsyncResultMap<Y, Z, E>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         lhs(x) { result in
             switch result {
@@ -57,19 +57,19 @@ public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escap
     }
 }
 
-/// Compositional operator that merges the `rhs` sync operation into the `lhs` async operation
-/// to create a new async operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` result map into the `lhs` async map
+/// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Async transformation that has an input of `X` and output of `Y`.
-///     - rhs: Sync transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Async map that has an input of `X` and output of `Y`.
+///     - rhs: Result map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Async transformation that has an input of `X` and output of `Z`. Merging a sync transformation
-/// into an async operation will yield an async transformation.
+/// Async map that has an input of `X` and output of `Z`. Merging a result map
+/// into an async map will yield an async map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping Transform<Y, Z, E>) -> AsyncTransform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping ResultMap<Y, Z, E>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         lhs(x) { result in
             switch result {
@@ -80,19 +80,19 @@ public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escap
     }
 }
 
-/// Compositional operator that merges the `rhs` simple operation into the `lhs` async operation
-/// to create a new async operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` map into the `lhs` async map
+/// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Async transformation that has an input of `X` and output of `Y`.
-///     - rhs: Simple transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Async map that has an input of `X` and output of `Y`.
+///     - rhs: A map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Async transformation that has an input of `X` and output of `Z`. Merging a simple transformation
-/// into an async operation will yield an async transformation.
+/// Async map that has an input of `X` and output of `Z`. Merging a map
+/// into an async map will yield an async map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escaping SimpleTransform<Y, Z>) -> AsyncTransform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping Map<Y, Z>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         lhs(x) { result in
             switch result {
@@ -103,19 +103,19 @@ public func <<- <X, Y, Z, E>(lhs: @escaping AsyncTransform<X, Y, E>, rhs: @escap
     }
 }
 
-/// Compositional operator that merges the `rhs` sync operation into the `lhs` sync operation
-/// to create a new sync operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` result map into the `lhs` result map
+/// to create a new result map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Sync transformation that has an input of `X` and output of `Y`.
-///     - rhs: Sync transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Result map that has an input of `X` and output of `Y`.
+///     - rhs: Result map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Sync transformation that has an input of `X` and output of `Z`. Merging a sync transformation
-/// into a sync operation will yield a sync transformation.
+/// Result map that has an input of `X` and output of `Z`. Merging a result map
+/// into a result map will yield a result map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping Transform<Y, Z, E>) -> Transform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping ResultMap<Y, Z, E>) -> ResultMap<X, Z, E> {
     return { x in
         switch lhs(x) {
         case .success(let y):     return rhs(y)
@@ -124,19 +124,19 @@ public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping T
     }
 }
 
-/// Compositional operator that merges the `rhs` async operation into the `lhs` sync operation
-/// to create a new async operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` async map into the `lhs` result map
+/// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Sync transformation that has an input of `X` and output of `Y`.
-///     - rhs: Async transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Result map that has an input of `X` and output of `Y`.
+///     - rhs: Async map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Async transformation that has an input of `X` and output of `Z`. Merging an async transformation
-/// into a sync operation will yield an async transformation.
+/// Async map that has an input of `X` and output of `Z`. Merging an async map
+/// into a result map will yield an async map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping AsyncTransform<Y, Z, E>) -> AsyncTransform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping AsyncResultMap<Y, Z, E>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         switch lhs(x) {
         case .success(let y):     return rhs(y, completion)
@@ -145,19 +145,19 @@ public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping A
     }
 }
 
-/// Compositional operator that merges the `rhs` simple operation into the `lhs` sync operation
-/// to create a new sync operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` map into the `lhs` result map
+/// to create a new result map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Sync transformation that has an input of `X` and output of `Y`.
-///     - rhs: Simple transformation that has an input of `Y` and output of `Z`.
+///     - lhs: Result map that has an input of `X` and output of `Y`.
+///     - rhs: A map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Sync transformation that has an input of `X` and output of `Z`. Merging a simple transformation
-/// into a sync operation will yield a sync transformation.
+/// Result map that has an input of `X` and output of `Z`. Merging a map
+/// into a result map will yield a result map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping SimpleTransform<Y, Z>) -> Transform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping Map<Y, Z>) -> ResultMap<X, Z, E> {
     return { x in
         switch lhs(x) {
         case .success(let y):     return .success(rhs(y))
@@ -166,55 +166,55 @@ public func <<- <X, Y, Z, E>(lhs: @escaping Transform<X, Y, E>, rhs: @escaping S
     }
 }
 
-/// Compositional operator that merges the `rhs` simple operation into the `lhs` simple operation
-/// to create a new simple operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` map into the `lhs` map
+/// to create a new map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Simple transformation that has an input of `X` and output of `Y`.
-///     - rhs: Simple transformation that has an input of `Y` and output of `Z`.
+///     - lhs: A map that has an input of `X` and output of `Y`.
+///     - rhs: A map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Simple transformation that has an input of `X` and output of `Z`. Merging a simple transformation
-/// into a simple operation will yield a simple transformation.
+/// A map that has an input of `X` and output of `Z`. Merging a map
+/// into a map will yield a map.
 ///
-public func <<- <X, Y, Z>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping SimpleTransform<Y, Z>) -> SimpleTransform<X, Z> {
+public func <<- <X, Y, Z>(lhs: @escaping Map<X, Y>, rhs: @escaping Map<Y, Z>) -> Map<X, Z> {
     return { x in
         return rhs(lhs(x))
     }
 }
 
-/// Compositional operator that merges the `rhs` sync operation into the `lhs` simple operation
-/// to create a new sync operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` result map into the `lhs` map
+/// to create a new result map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Simple transformation that has an input of `X` and output of `Y`.
-///     - rhs: Sync transformation that has an input of `Y` and output of `Z`.
+///     - lhs: A map that has an input of `X` and output of `Y`.
+///     - rhs: Result map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Sync transformation that has an input of `X` and output of `Z`. Merging a sync transformation
-/// into a simple operation will yield a sync transformation.
+/// Result map that has an input of `X` and output of `Z`. Merging a result map
+/// into a map will yield a result map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping Transform<Y, Z, E>) -> Transform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping Map<X, Y>, rhs: @escaping ResultMap<Y, Z, E>) -> ResultMap<X, Z, E> {
     return { x in
         return rhs(lhs(x))
     }
 }
 
-/// Compositional operator that merges the `rhs` async operation into the `lhs` simple operation
-/// to create a new async operation that will execute the `lhs`, followed by the `rhs` **if**, and
+/// Compositional operator that merges the `rhs` async map into the `lhs` map
+/// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
 ///
 /// - parameters:
-///     - lhs: Simple transformation that has an input of `X` and output of `Y`.
-///     - rhs: Async transformation that has an input of `Y` and output of `Z`.
+///     - lhs: A map that has an input of `X` and output of `Y`.
+///     - rhs: Async map that has an input of `Y` and output of `Z`.
 ///
 /// - returns:
-/// Async transformation that has an input of `X` and output of `Z`. Merging an async transformation
-/// into a simple operation will yield an async transformation.
+/// Async map that has an input of `X` and output of `Z`. Merging an async map
+/// into a map will yield an async map.
 ///
-public func <<- <X, Y, Z, E>(lhs: @escaping SimpleTransform<X, Y>, rhs: @escaping AsyncTransform<Y, Z, E>) -> AsyncTransform<X, Z, E> {
+public func <<- <X, Y, Z, E>(lhs: @escaping Map<X, Y>, rhs: @escaping AsyncResultMap<Y, Z, E>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         return rhs(lhs(x), completion)
     }

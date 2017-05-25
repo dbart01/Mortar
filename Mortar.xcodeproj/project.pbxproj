@@ -26,8 +26,8 @@
 		9A9C926A1ECBE8AB0027F049 /* BlockingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C92691ECBE8AB0027F049 /* BlockingTests.swift */; };
 		9A9C926D1ECC6F0D0027F049 /* Precedence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C926B1ECC6D940027F049 /* Precedence.swift */; };
 		9A9C926E1ECC6F0E0027F049 /* Precedence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C926B1ECC6D940027F049 /* Precedence.swift */; };
-		9AE2A1C91ECA456E00921247 /* Passthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Passthrough.swift */; };
-		9AE2A1CA1ECA456F00921247 /* Passthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Passthrough.swift */; };
+		9AE2A1C91ECA456E00921247 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Consumer.swift */; };
+		9AE2A1CA1ECA456F00921247 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Consumer.swift */; };
 		9AE2A1CC1ECB189C00921247 /* PassthroughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1CB1ECB189C00921247 /* PassthroughTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,7 +60,7 @@
 		9A9C92671ECB99BF0027F049 /* Blocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blocking.swift; sourceTree = "<group>"; };
 		9A9C92691ECBE8AB0027F049 /* BlockingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockingTests.swift; sourceTree = "<group>"; };
 		9A9C926B1ECC6D940027F049 /* Precedence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Precedence.swift; sourceTree = "<group>"; };
-		9AE2A1C81ECA456E00921247 /* Passthrough.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Passthrough.swift; sourceTree = "<group>"; };
+		9AE2A1C81ECA456E00921247 /* Consumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consumer.swift; sourceTree = "<group>"; };
 		9AE2A1CB1ECB189C00921247 /* PassthroughTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -141,7 +141,7 @@
 			children = (
 				9A49DC781EC49BDB0053710B /* Compositional.swift */,
 				9A49DC7B1EC49C520053710B /* Exclusive.swift */,
-				9AE2A1C81ECA456E00921247 /* Passthrough.swift */,
+				9AE2A1C81ECA456E00921247 /* Consumer.swift */,
 				9A9C92671ECB99BF0027F049 /* Blocking.swift */,
 			);
 			name = Transforms;
@@ -307,7 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE2A1C91ECA456E00921247 /* Passthrough.swift in Sources */,
+				9AE2A1C91ECA456E00921247 /* Consumer.swift in Sources */,
 				9A49DC801EC49C730053710B /* FunctionTypes.swift in Sources */,
 				9A9C926E1ECC6F0E0027F049 /* Precedence.swift in Sources */,
 				9A49DC731EC49BA30053710B /* Result.swift in Sources */,
@@ -334,7 +334,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AE2A1CA1ECA456F00921247 /* Passthrough.swift in Sources */,
+				9AE2A1CA1ECA456F00921247 /* Consumer.swift in Sources */,
 				9A9C926D1ECC6F0D0027F049 /* Precedence.swift in Sources */,
 				9A49DC811EC49C730053710B /* FunctionTypes.swift in Sources */,
 				9A49DC741EC49BA30053710B /* Result.swift in Sources */,

@@ -39,8 +39,8 @@ typealias T_SyncIntToString     = (Int) -> Result<String, TestError>
 typealias T_SimpleIntToInt      = (Int) -> Int
 typealias T_SimpleIntToString   = (Int) -> String
 
-typealias T_PassthroughInt      = (Int) -> Void
-typealias T_PassthroughString   = (String) -> Void
+typealias T_ConsumerInt         = (Int) -> Void
+typealias T_ConsumerString      = (String) -> Void
 
 // ----------------------------------
 //  MARK: - Functions -
