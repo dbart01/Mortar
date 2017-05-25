@@ -32,9 +32,9 @@ import Foundation
 infix operator -<: ConsumerPrecedence
 
 // ----------------------------------
-//  MARK: - Overloads -
+//  MARK: - Map -
 //
-/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// Consumer operator that takes the output of an async result map and appends a passthrough function
 /// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
@@ -58,7 +58,7 @@ public func -< <X, Y, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping 
     }
 }
 
-/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// Consumer operator that takes the output of a result map and appends a passthrough function
 /// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
@@ -81,7 +81,7 @@ public func -< <X, Y, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping Consu
     }
 }
 
-/// Consumer operator that takes the output of an async map and appends a passthrough function
+/// Consumer operator that takes the output of a map and appends a passthrough function
 /// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
 ///
 /// - parameters:
@@ -94,6 +94,74 @@ public func -< <X, Y, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping Consu
 public func -< <X, Y>(lhs: @escaping Map<X, Y>, rhs: @escaping Consumer<Y>) -> Map<X, Y> {
     return { x in
         let y = lhs(x)
+        rhs(y)
+        return y
+    }
+}
+
+// ----------------------------------
+//  MARK: - Emitter -
+//
+/// Consumer operator that takes the output of an async result emitter and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: Async result emitter that has no input and returns `Result` of type `X`.
+///     - rhs: Consumer function that has an input of `X` and no return value.
+///
+/// - returns:
+/// The same async result emitter that was the `lhs` input value.
+///
+public func -< <X, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping Consumer<X>) -> AsyncResultEmitter<X, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y):
+                rhs(y)
+                completion(.success(y))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+}
+
+/// Consumer operator that takes the output of a result emitter and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: Result emitter that has no input and returns `Result` of type `X`.
+///     - rhs: Consumer function that has an input of `X` and no return value.
+///
+/// - returns:
+/// The same result emitter that was the `lhs` input value.
+///
+public func -< <X, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping Consumer<X>) -> ResultEmitter<X, E> {
+    return { x in
+        let result = lhs()
+        switch result {
+        case .success(let y):
+            rhs(y)
+        default:
+            break
+        }
+        return result
+    }
+}
+
+/// Consumer operator that takes the output of an emitter and appends a passthrough function
+/// that returns the same output, unchanged. A passthrough function doesn't modify the processing pipeline.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and returns a value of type `X`.
+///     - rhs: Consumer function that has an input of `X` and no return value.
+///
+/// - returns:
+/// The same emitter that was the `lhs` input value.
+///
+public func -< <X>(lhs: @escaping Emitter<X>, rhs: @escaping Consumer<X>) -> Emitter<X> {
+    return { x in
+        let y = lhs()
         rhs(y)
         return y
     }

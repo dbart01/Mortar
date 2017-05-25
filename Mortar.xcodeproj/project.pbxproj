@@ -28,7 +28,7 @@
 		9A9C926E1ECC6F0E0027F049 /* Precedence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9C926B1ECC6D940027F049 /* Precedence.swift */; };
 		9AE2A1C91ECA456E00921247 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Consumer.swift */; };
 		9AE2A1CA1ECA456F00921247 /* Consumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1C81ECA456E00921247 /* Consumer.swift */; };
-		9AE2A1CC1ECB189C00921247 /* PassthroughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1CB1ECB189C00921247 /* PassthroughTests.swift */; };
+		9AE2A1CC1ECB189C00921247 /* ConsumerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AE2A1CB1ECB189C00921247 /* ConsumerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +61,7 @@
 		9A9C92691ECBE8AB0027F049 /* BlockingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockingTests.swift; sourceTree = "<group>"; };
 		9A9C926B1ECC6D940027F049 /* Precedence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Precedence.swift; sourceTree = "<group>"; };
 		9AE2A1C81ECA456E00921247 /* Consumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consumer.swift; sourceTree = "<group>"; };
-		9AE2A1CB1ECB189C00921247 /* PassthroughTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassthroughTests.swift; sourceTree = "<group>"; };
+		9AE2A1CB1ECB189C00921247 /* ConsumerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsumerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 				9A49DC861EC4D31F0053710B /* Test Suite */,
 				9A49DC5B1EC49A170053710B /* CompositionalTests.swift */,
 				9A5C46EF1EC72E9A00CE3627 /* ExclusiveTests.swift */,
-				9AE2A1CB1ECB189C00921247 /* PassthroughTests.swift */,
+				9AE2A1CB1ECB189C00921247 /* ConsumerTests.swift */,
 				9A9C92691ECBE8AB0027F049 /* BlockingTests.swift */,
 				9A49DC5D1EC49A170053710B /* Info.plist */,
 			);
@@ -325,7 +325,7 @@
 				9A49DC881EC4D3290053710B /* Types.swift in Sources */,
 				9A49DC851EC4D2510053710B /* TestError.swift in Sources */,
 				9A5C46F01EC72E9A00CE3627 /* ExclusiveTests.swift in Sources */,
-				9AE2A1CC1ECB189C00921247 /* PassthroughTests.swift in Sources */,
+				9AE2A1CC1ECB189C00921247 /* ConsumerTests.swift in Sources */,
 				9A49DC5C1EC49A170053710B /* CompositionalTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

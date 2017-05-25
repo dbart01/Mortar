@@ -30,7 +30,7 @@ import Mortar
 class ConsumerTests: XCTestCase {
 
     // ----------------------------------
-    //  MARK: - Consumer -
+    //  MARK: - Map -
     //
     func testAsyncConsumerSuccess() {
         
@@ -101,6 +101,82 @@ class ConsumerTests: XCTestCase {
         
         let pipeline = triple_s -< log <<- stringify_s
         pipeline(3) { _ in }
+        
+        XCTAssertTrue(didLog)
+    }
+    
+    // ----------------------------------
+    //  MARK: - Emitter -
+    //
+    func testAsyncResultEmitterSuccess() {
+        
+        var didLog = false
+        
+        let log: T_ConsumerInt = { value in
+            didLog = true
+            XCTAssertEqual(value, 7)
+        }
+        
+        let pipeline = createSeven_s -< log <<- stringify_s
+        pipeline() { _ in }
+        
+        XCTAssertTrue(didLog)
+    }
+    
+    func testAsyncResultEmitterFailure() {
+        
+        var didLog = false
+        
+        let log: T_ConsumerInt = { value in
+            didLog = true
+        }
+        
+        let pipeline = createSeven_f -< log <<- stringify_s
+        pipeline() { _ in }
+        
+        XCTAssertFalse(didLog)
+    }
+    
+    func testResultEmitterSuccess() {
+        
+        var didLog = false
+        
+        let log: T_ConsumerInt = { value in
+            didLog = true
+            XCTAssertEqual(value, 4)
+        }
+        
+        let pipeline = createFour_s -< log <<- stringify_s
+        pipeline() { _ in }
+        
+        XCTAssertTrue(didLog)
+    }
+    
+    func testResultEmitterFailure() {
+        
+        var didLog = false
+        
+        let log: T_ConsumerInt = { value in
+            didLog = true
+        }
+        
+        let pipeline = createFour_f -< log <<- stringify_s
+        pipeline() { _ in }
+        
+        XCTAssertFalse(didLog)
+    }
+    
+    func testEmitterSuccess() {
+        
+        var didLog = false
+        
+        let log: T_ConsumerInt = { value in
+            didLog = true
+            XCTAssertEqual(value, 6)
+        }
+        
+        let pipeline = createSix_s -< log <<- stringify_s
+        pipeline() { _ in }
         
         XCTAssertTrue(didLog)
     }
