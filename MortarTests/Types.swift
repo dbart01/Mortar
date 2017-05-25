@@ -42,6 +42,10 @@ typealias T_SimpleIntToString   = (Int) -> String
 typealias T_ConsumerInt         = (Int) -> Void
 typealias T_ConsumerString      = (String) -> Void
 
+typealias T_IntEmitter            = () -> Int
+typealias T_IntResultEmitter      = () -> Result<Int, TestError>
+typealias T_IntAsyncResultEmitter = (_ output: @escaping (Result<Int, TestError>) -> Void) -> Void
+
 // ----------------------------------
 //  MARK: - Functions -
 //
@@ -99,4 +103,24 @@ let pow_f: T_SyncIntToInt = { value in
 
 let triple_s: T_SimpleIntToInt = { value in
     return value * 3
+}
+
+let createFive_s: T_IntResultEmitter = {
+    return .success(5)
+}
+
+let createFive_f: T_IntResultEmitter = {
+    return .failure(.generic)
+}
+
+let createSix_s: T_IntEmitter = {
+    return 6
+}
+
+let createSeven_s: T_IntAsyncResultEmitter = { completion in
+    completion(.success(7))
+}
+
+let createSeven_f: T_IntAsyncResultEmitter = { completion in
+    completion(.failure(.generic))
 }

@@ -60,3 +60,26 @@ public typealias Map<X, Y> = (_ input: X) -> Y
 ///     - input: Input value of type `X`.
 ///
 public typealias Consumer<X> = (_ input: X) -> Void
+
+/// A generator function that takes no input and returns `X`.
+///
+/// - returns:
+/// Output value of type `X`.
+///
+public typealias Emitter<X> = () -> X
+
+/// A generator function that takes no input and returns a 
+/// `Result` of type `X`.
+///
+/// - returns:
+/// Output with `Result` of type `X`.
+///
+public typealias ResultEmitter<X, E: Error> = () -> Result<X, E>
+
+/// An async generator function that takes no input and calls a 
+/// completion with `Result` of type `X`.
+///
+/// - parameters:
+///     - output: Output handler to be called on completion with `Result` of type `X`.
+///
+public typealias AsyncResultEmitter<X, E: Error> = (_ output: @escaping (Result<X, E>) -> Void) -> Void

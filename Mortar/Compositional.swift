@@ -32,7 +32,7 @@ import Foundation
 infix operator <<-: CompositionPrecedence
 
 // ----------------------------------
-//  MARK: - Overloads -
+//  MARK: - Async Result Map -
 //
 /// Compositional operator that merges the `rhs` async map into the `lhs` async map
 /// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
@@ -103,6 +103,9 @@ public func <<- <X, Y, Z, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escap
     }
 }
 
+// ----------------------------------
+//  MARK: - ResultMap -
+//
 /// Compositional operator that merges the `rhs` result map into the `lhs` result map
 /// to create a new result map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
@@ -166,6 +169,9 @@ public func <<- <X, Y, Z, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping M
     }
 }
 
+// ----------------------------------
+//  MARK: - Map -
+//
 /// Compositional operator that merges the `rhs` map into the `lhs` map
 /// to create a new map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
@@ -217,5 +223,200 @@ public func <<- <X, Y, Z, E>(lhs: @escaping Map<X, Y>, rhs: @escaping ResultMap<
 public func <<- <X, Y, Z, E>(lhs: @escaping Map<X, Y>, rhs: @escaping AsyncResultMap<Y, Z, E>) -> AsyncResultMap<X, Z, E> {
     return { x, completion in
         return rhs(lhs(x), completion)
+    }
+}
+
+// ----------------------------------
+//  MARK: - Emitter -
+//
+/// Compositional operator that merges the `rhs` async map into the `lhs` emitter
+/// to create a new async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: Async map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// Async result emitter that has no input and an output of `Y`. Merging an async map
+/// into a result emitter will yield an async result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping Emitter<X>, rhs: @escaping AsyncResultMap<X, Y, E>) -> AsyncResultEmitter<Y, E> {
+    return { completion in
+        rhs(lhs(), completion)
+    }
+}
+
+/// Compositional operator that merges the `rhs` result map into the `lhs` emitter
+/// to create a new result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: A result map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// A result emitter that has no input and an output of `Y`. Merging a result map
+/// into a result emitter will yield another result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping Emitter<X>, rhs: @escaping ResultMap<X, Y, E>) -> ResultEmitter<Y, E> {
+    return {
+        return rhs(lhs())
+    }
+}
+
+/// Compositional operator that merges the `rhs` map into the `lhs` emitter
+/// to create a new emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: A map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// A result emitter that has no input and an output of `Y`. Merging a map
+/// into a result emitter will yield another result emitter.
+///
+public func <<- <X, Y>(lhs: @escaping Emitter<X>, rhs: @escaping Map<X, Y>) -> Emitter<Y> {
+    return {
+        return rhs(lhs())
+    }
+}
+
+// ----------------------------------
+//  MARK: - Result Emitter -
+//
+/// Compositional operator that merges the `rhs` async map into the `lhs` result emitter
+/// to create a new async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: Async result map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// Async result emitter that has no input and an output of `Y`. Merging an async map
+/// into a result emitter will yield an async result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping AsyncResultMap<X, Y, E>) -> AsyncResultEmitter<Y, E> {
+    return { completion in
+        switch lhs() {
+        case .success(let y):     rhs(y, completion)
+        case .failure(let error): completion(.failure(error))
+        }
+    }
+}
+
+/// Compositional operator that merges the `rhs` result map into the `lhs` result emitter
+/// to create a new result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: A result map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// A result emitter that has no input and an output of `Y`. Merging a result map
+/// into a result emitter will yield another result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping ResultMap<X, Y, E>) -> ResultEmitter<Y, E> {
+    return {
+        switch lhs() {
+        case .success(let y):     return rhs(y)
+        case .failure(let error): return .failure(error)
+        }
+    }
+}
+
+/// Compositional operator that merges the `rhs` map into the `lhs` result emitter
+/// to create a new result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An emitter that has no input and an output of `X`.
+///     - rhs: A map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// A result emitter that has no input and an output of `Y`. Merging a map
+/// into a result emitter will yield another result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping Map<X, Y>) -> ResultEmitter<Y, E> {
+    return {
+        switch lhs() {
+        case .success(let y):     return .success(rhs(y))
+        case .failure(let error): return .failure(error)
+        }
+    }
+}
+
+// ----------------------------------
+//  MARK: - Async Result Emitter -
+//
+/// Compositional operator that merges the `rhs` async map into the `lhs` async result emitter
+/// to create a new async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An async result emitter that outputs a `Result` of type `X`.
+///     - rhs: Async result map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs `Result` of type `Y`. Merging an async map
+/// into an async result emitter will yield an async result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping AsyncResultMap<X, Y, E>) -> AsyncResultEmitter<Y, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y):     rhs(y, completion)
+            case .failure(let error): completion(.failure(error))
+            }
+        }
+    }
+}
+
+/// Compositional operator that merges the `rhs` result map into the `lhs` async result emitter
+/// to create a new async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An async result emitter that outputs a `Result` of type `X`.
+///     - rhs: Result map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs `Result` of type `Y`. Merging a result map
+/// into an async result emitter will yield an async result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping ResultMap<X, Y, E>) -> AsyncResultEmitter<Y, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y):     return completion(rhs(y))
+            case .failure(let error): return completion(.failure(error))
+            }
+        }
+    }
+}
+
+/// Compositional operator that merges the `rhs` map into the `lhs` async result emitter
+/// to create a new async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` succeeds. If `lhs` fails, the pipeline will exit with the failure result of `lhs`.
+///
+/// - parameters:
+///     - lhs: An async result emitter that outputs a `Result` of type `X`.
+///     - rhs: A map that has an input of `X` and output of `Y`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs `Result` of type `Y`. Merging a map
+/// into an async result emitter will yield an async result emitter.
+///
+public func <<- <X, Y, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping Map<X, Y>) -> AsyncResultEmitter<Y, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y):     return completion(.success(rhs(y)))
+            case .failure(let error): return completion(.failure(error))
+            }
+        }
     }
 }

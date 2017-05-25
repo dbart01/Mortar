@@ -30,7 +30,7 @@ import Mortar
 class CompositionalTests: XCTestCase {
     
     // ----------------------------------
-    //  MARK: - Async to X -
+    //  MARK: - Async Map -
     //
     func testAsyncToAsyncSuccess() {
         let pipeline = addTwo_s <<- stringify_s
@@ -84,7 +84,7 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testAsyncToSimpleSuccess() {
+    func testAsyncToMapSuccess() {
         let pipeline = addTwo_s <<- triple_s
         
         pipeline(2) { result in
@@ -97,7 +97,7 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testAsyncToSimpleFailure() {
+    func testAsyncToMapFailure() {
         let pipeline = addTwo_f <<- triple_s
         
         pipeline(2) { result in
@@ -111,7 +111,7 @@ class CompositionalTests: XCTestCase {
     }
     
     // ----------------------------------
-    //  MARK: - Sync to X -
+    //  MARK: - Result Map -
     //
     func testSyncToSyncSuccess() {
         let pipeline = double_s <<- double_s
@@ -161,7 +161,7 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testSyncToSimpleSuccess() {
+    func testSyncToMapSuccess() {
         let pipeline = double_s <<- triple_s
         
         switch pipeline(2) {
@@ -172,7 +172,7 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testSyncToSimpleFailure() {
+    func testSyncToMapFailure() {
         let pipeline = double_f <<- triple_s
         
         switch pipeline(2) {
@@ -184,15 +184,15 @@ class CompositionalTests: XCTestCase {
     }
     
     // ----------------------------------
-    //  MARK: - Simple to X -
+    //  MARK: - Map -
     //
-    func testSimpleToSimple() {
+    func testMapToMap() {
         let pipeline = triple_s <<- triple_s
         
         XCTAssertEqual(pipeline(2), 18)
     }
     
-    func testSimpleToSync() {
+    func testMapToSync() {
         let pipeline = triple_s <<- double_s
         
         switch pipeline(2) {
@@ -203,7 +203,7 @@ class CompositionalTests: XCTestCase {
         }
     }
     
-    func testSimpleToAsync() {
+    func testMapToAsync() {
         let pipeline = triple_s <<- addTwo_s
         
         pipeline(2) { result in
@@ -212,6 +212,194 @@ class CompositionalTests: XCTestCase {
                 XCTAssertEqual(value, 8)
             case .failure:
                 XCTFail()
+            }
+        }
+    }
+    
+    // ----------------------------------
+    //  MARK: - Emitter -
+    //
+    func testEmitterToAsync() {
+        let pipeline = createSix_s <<- addTwo_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 8)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testEmitterToSyncSuccess() {
+        let pipeline = createSix_s <<- double_s
+        
+        switch pipeline() {
+        case .success(let value):
+            XCTAssertEqual(value, 12)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testEmitterToMapSuccess() {
+        let pipeline = createSix_s <<- triple_s
+        
+        let value = pipeline()
+        XCTAssertEqual(value, 18)
+    }
+    
+    // ----------------------------------
+    //  MARK: - Result Emitter -
+    //
+    func testResultEmitterToAsyncSuccess() {
+        let pipeline = createFive_s <<- addTwo_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 7)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testResultEmitterToAsyncFailure() {
+        let pipeline = createFive_f <<- addTwo_s
+        
+        pipeline() { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .generic)
+            }
+        }
+    }
+    
+    func testResultEmitterToSyncSuccess() {
+        let pipeline = createFive_s <<- double_s
+        
+        switch pipeline() {
+        case .success(let value):
+            XCTAssertEqual(value, 10)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testResultEmitterToSyncFailure() {
+        let pipeline = createFive_f <<- double_f
+        
+        switch pipeline() {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error, .generic)
+        }
+    }
+    
+    func testResultEmitterToMapSuccess() {
+        let pipeline = createFive_s <<- triple_s
+        
+        switch pipeline() {
+        case .success(let value):
+            XCTAssertEqual(value, 15)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testResultEmitterToMapFailure() {
+        let pipeline = createFive_f <<- triple_s
+        
+        switch pipeline() {
+        case .success:
+            XCTFail()
+        case .failure(let error):
+            XCTAssertEqual(error, .generic)
+        }
+    }
+    
+    // ----------------------------------
+    //  MARK: - Async Result Emitter -
+    //
+    func testAsyncResultEmitterToAsyncSuccess() {
+        let pipeline = createSeven_s <<- addTwo_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 9)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncResultEmitterToAsyncFailure() {
+        let pipeline = createSeven_f <<- addTwo_s
+        
+        pipeline() { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .generic)
+            }
+        }
+    }
+    
+    func testAsyncResultEmitterToSyncSuccess() {
+        let pipeline = createSeven_s <<- double_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 14)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncResultEmitterToSyncFailure() {
+        let pipeline = createSeven_f <<- double_s
+        
+        pipeline() { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .generic)
+            }
+        }
+    }
+    
+    func testAsyncResultEmitterToMapSuccess() {
+        let pipeline = createSeven_s <<- triple_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 21)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncResultEmitterToMapFailure() {
+        let pipeline = createSeven_f <<- triple_s
+        
+        pipeline() { result in
+            switch result {
+            case .success:
+                XCTFail()
+            case .failure(let error):
+                XCTAssertEqual(error, .generic)
             }
         }
     }
