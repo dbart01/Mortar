@@ -32,7 +32,7 @@ import Foundation
 infix operator <->: ExclusivePrecedence
 
 // ----------------------------------
-//  MARK: - Overloads -
+//  MARK: - Async Result Map -
 //
 /// Exclusive operator that merges the `rhs` async map into the `lhs` async map
 /// to create a new async map that will execute the `lhs`, followed by the `rhs` **if**, and
@@ -106,6 +106,9 @@ public func <-> <X, Y, E>(lhs: @escaping AsyncResultMap<X, Y, E>, rhs: @escaping
     }
 }
 
+// ----------------------------------
+//  MARK: - Result Map -
+//
 /// Exclusive operator that merges the `rhs` result map into the `lhs` result map
 /// to create a new result map that will execute the `lhs`, followed by the `rhs` **if**, and
 /// only if the `lhs` fails. If `lhs` succeeds, the execution will continue along the pipeline with
@@ -168,6 +171,104 @@ public func <-> <X, Y, E>(lhs: @escaping ResultMap<X, Y, E>, rhs: @escaping Map<
         switch lhs(x) {
         case .success(let y): return .success(y)
         case .failure:        return .success(rhs(x))
+        }
+    }
+}
+
+// ----------------------------------
+//  MARK: - Async Result Emitter -
+//
+/// Exclusive operator that merges the `rhs` async result emitter into the `lhs` async result emitter
+/// to create an async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` fails. If `lhs` succeeds, the execution will continue along the pipeline with
+/// the result of `lhs` and `rhs` map will be skipped.
+///
+/// - parameters:
+///     - lhs: Async result emitter that has no input and outputs a `Result` of type `X`.
+///     - rhs: Async result emitter that has no input and outputs a `Result` of type `X`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs a `Result` of type `X`. Merging an async result emitter
+/// into an async result emitter will yield an async result emitter.
+///
+public func <-> <X, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping AsyncResultEmitter<X, E>) -> AsyncResultEmitter<X, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y): return completion(.success(y))
+            case .failure:        return rhs(completion)
+            }
+        }
+    }
+}
+
+/// Exclusive operator that merges the `rhs` async result emitter into the `lhs` async result emitter
+/// to create an async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` fails. If `lhs` succeeds, the execution will continue along the pipeline with
+/// the result of `lhs` and `rhs` map will be skipped.
+///
+/// - parameters:
+///     - lhs: Async result emitter that has no input and outputs a `Result` of type `X`.
+///     - rhs: Result emitter that has no input and outputs a `Result` of type `X`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs a `Result` of type `X`. Merging a result emitter
+/// into an async result emitter will yield an async result emitter.
+///
+public func <-> <X, E>(lhs: @escaping AsyncResultEmitter<X, E>, rhs: @escaping ResultEmitter<X, E>) -> AsyncResultEmitter<X, E> {
+    return { completion in
+        lhs() { result in
+            switch result {
+            case .success(let y): return completion(.success(y))
+            case .failure:        return completion(rhs())
+            }
+        }
+    }
+}
+
+// ----------------------------------
+//  MARK: - Result Emitter -
+//
+/// Exclusive operator that merges the `rhs` result emitter into the `lhs` result emitter
+/// to create a result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` fails. If `lhs` succeeds, the execution will continue along the pipeline with
+/// the result of `lhs` and `rhs` map will be skipped.
+///
+/// - parameters:
+///     - lhs: Result emitter that has no input and outputs a `Result` of type `X`.
+///     - rhs: Result emitter that has no input and outputs a `Result` of type `X`.
+///
+/// - returns:
+/// A result emitter that has no input and outputs a `Result` of type `X`. Merging a result emitter
+/// into a result emitter will yield a result emitter.
+///
+public func <-> <X, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping ResultEmitter<X, E>) -> ResultEmitter<X, E> {
+    return {
+        switch lhs() {
+        case .success(let y): return .success(y)
+        case .failure:        return rhs()
+        }
+    }
+}
+
+/// Exclusive operator that merges the `rhs` async result emitter into the `lhs` result emitter
+/// to create an async result emitter that will execute the `lhs`, followed by the `rhs` **if**, and
+/// only if the `lhs` fails. If `lhs` succeeds, the execution will continue along the pipeline with
+/// the result of `lhs` and `rhs` map will be skipped.
+///
+/// - parameters:
+///     - lhs: Result emitter that has no input and outputs a `Result` of type `X`.
+///     - rhs: Async result emitter that has no input and outputs a `Result` of type `X`.
+///
+/// - returns:
+/// Async result emitter that has no input and outputs a `Result` of type `X`. Merging an async result emitter
+/// into a result emitter will yield an async result emitter.
+///
+public func <-> <X, E>(lhs: @escaping ResultEmitter<X, E>, rhs: @escaping AsyncResultEmitter<X, E>) -> AsyncResultEmitter<X, E> {
+    return { completion in
+        switch lhs() {
+        case .success(let y): return completion(.success(y))
+        case .failure:        return rhs(completion)
         }
     }
 }

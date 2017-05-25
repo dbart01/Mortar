@@ -105,6 +105,14 @@ let triple_s: T_SimpleIntToInt = { value in
     return value * 3
 }
 
+let createFour_s: T_IntResultEmitter = {
+    return .success(4)
+}
+
+let createFour_f: T_IntResultEmitter = {
+    return .failure(.generic)
+}
+
 let createFive_s: T_IntResultEmitter = {
     return .success(5)
 }
@@ -122,5 +130,13 @@ let createSeven_s: T_IntAsyncResultEmitter = { completion in
 }
 
 let createSeven_f: T_IntAsyncResultEmitter = { completion in
+    completion(.failure(.generic))
+}
+
+let createEight_s: T_IntAsyncResultEmitter = { completion in
+    completion(.success(8))
+}
+
+let createEight_f: T_IntAsyncResultEmitter = { completion in
     completion(.failure(.generic))
 }

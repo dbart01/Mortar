@@ -30,7 +30,7 @@ import Mortar
 class ExclusiveTests: XCTestCase {
 
     // ----------------------------------
-    //  MARK: - Async to X -
+    //  MARK: - Async Result Map -
     //
     func testAsyncToAsyncSuccess() {
         let pipeline = addTwo_s <-> subtractThree_s
@@ -111,7 +111,7 @@ class ExclusiveTests: XCTestCase {
     }
     
     // ----------------------------------
-    //  MARK: - Sync to X -
+    //  MARK: - Result Map -
     //
     func testSyncToSyncSuccess() {
         let pipeline = double_s <-> pow_s
@@ -180,6 +180,113 @@ class ExclusiveTests: XCTestCase {
             XCTAssertEqual(value, 12)
         case .failure:
             XCTFail()
+        }
+    }
+    
+    // ----------------------------------
+    //  MARK: - Async Result Emitter -
+    //
+    func testAsyncEmitterToAsyncEmitterSuccess() {
+        let pipeline = createSeven_s <-> createEight_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 7)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncEmitterToAsyncEmitterFailure() {
+        let pipeline = createSeven_f <-> createEight_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 8)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncEmitterToSyncEmitterSuccess() {
+        let pipeline = createSeven_s <-> createFive_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 7)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testAsyncEmitterToSyncEmitterFailure() {
+        let pipeline = createSeven_f <-> createFive_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 5)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    // ----------------------------------
+    //  MARK: - Result Emitter -
+    //
+    func testSyncEmitterToSyncEmitterSuccess() {
+        let pipeline = createFive_s <-> createFour_s
+        
+        switch pipeline() {
+        case .success(let value):
+            XCTAssertEqual(value, 5)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    func testSyncEmitterToSyncEmitterFailure() {
+        let pipeline = createFive_f <-> createFour_s
+        
+        switch pipeline() {
+        case .success(let value):
+            XCTAssertEqual(value, 4)
+        case .failure:
+            XCTFail()
+        }
+    }
+    
+    
+    func testSyncEmitterToAsyncEmitterSuccess() {
+        let pipeline = createFive_s <-> createSeven_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 5)
+            case .failure:
+                XCTFail()
+            }
+        }
+    }
+    
+    func testSyncEmitterToAsyncEmitterFailure() {
+        let pipeline = createFive_f <-> createSeven_s
+        
+        pipeline() { result in
+            switch result {
+            case .success(let value):
+                XCTAssertEqual(value, 7)
+            case .failure:
+                XCTFail()
+            }
         }
     }
 }
