@@ -35,8 +35,3 @@ precedencegroup ExclusivePrecedence {
     associativity: left
     higherThan: CompositionPrecedence
 }
-
-precedencegroup ConsumerPrecedence {
-    associativity: left
-    higherThan: ExclusivePrecedence
-}

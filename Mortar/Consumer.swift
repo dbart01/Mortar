@@ -29,7 +29,7 @@ import Foundation
 // ----------------------------------
 //  MARK: - Operator -
 //
-infix operator -<: ConsumerPrecedence
+infix operator -<: CompositionPrecedence
 
 // ----------------------------------
 //  MARK: - Map -
